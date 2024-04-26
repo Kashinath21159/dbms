@@ -1,0 +1,103 @@
+test> db.createCollection('student_data')
+{ ok: 1 }
+
+test> db.student_data.insertMany([{name:'Kashinath',age:23},{name:'Kaushik',age:21},{name:'Harsh',age:22},{name:'Nidhi',age:21},{name:'Reshma',age:22}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('65d9855873761c46b339615f'),
+    '1': ObjectId('65d9855873761c46b3396160'),
+    '2': ObjectId('65d9855873761c46b3396161'),
+    '3': ObjectId('65d9855873761c46b3396162'),
+    '4': ObjectId('65d9855873761c46b3396163')
+  }
+}
+test> db.student_data.find()
+[
+  {
+    _id: ObjectId('65d9855873761c46b339615f'),
+    name: 'Kashinath',
+    age: 23
+  },
+  {
+    _id: ObjectId('65d9855873761c46b3396160'),
+    name: 'Kaushik',
+    age: 21
+  },
+  { _id: ObjectId('65d9855873761c46b3396161'), name: 'Harsh', age: 22 },
+  { _id: ObjectId('65d9855873761c46b3396162'), name: 'Nidhi', age: 21 },
+  {
+    _id: ObjectId('65d9855873761c46b3396163'),
+    name: 'Reshma',
+    age: 22
+  }
+]
+test> db.student_data.findOne({name:'Kashinath'})
+{
+  _id: ObjectId('65d9855873761c46b339615f'),
+  name: 'Kashinath',
+  age: 23
+}
+test> db.student_data.updateOne({name:'Harsh'},{$set:{name:'Tanmay'}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+test> db.student_data.findOne({name:'Tanmay'})
+{ _id: ObjectId('65d9855873761c46b3396161'), name: 'Tanmay', age: 22 }
+test> db.student_data.updateMany({age:{$lt:22}},{$set:{status:'Active'}}
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+test> db.student_data.find()
+[
+  {
+    _id: ObjectId('65d9855873761c46b339615f'),
+    name: 'Kashinath',
+    age: 23
+  },
+  {
+    _id: ObjectId('65d9855873761c46b3396160'),
+    name: 'Kaushik',
+    age: 21,
+    status: 'Active'
+  },
+  {
+    _id: ObjectId('65d9855873761c46b3396161'),
+    name: 'Tanmay',
+    age: 22
+  },
+  {
+    _id: ObjectId('65d9855873761c46b3396162'),
+    name: 'Nidhi',
+    age: 21,
+    status: 'Active'
+  },
+  {
+    _id: ObjectId('65d9855873761c46b3396163'),
+    name: 'Reshma',
+    age: 22
+  }
+]
+test> db.student_data.deleteOne({name:'Tanmay'})
+{ acknowledged: true, deletedCount: 1 }
+test> .
+Invalid REPL keyword
+test>
+
+test> db.student_data.deleteMany({age:{$lt:22}})
+{ acknowledged: true, deletedCount: 2 }
+
+
+test> db.student_data.drop()
+true
+test> db.kashinath.drop()
+false
